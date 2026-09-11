@@ -92,6 +92,15 @@ public sealed class ExpenseManager(
             cancellationToken);
     }
 
+    public async Task<ExpenseSummaryResponse> GetSummaryByUserAsync(
+    int userId,
+    CancellationToken cancellationToken)
+    {
+        return await repository.GetSummaryByUserAsync(
+            userId,
+            cancellationToken);
+    }
+
     private static ExpenseResponse Map(Expense expense)
     {
         return new ExpenseResponse(

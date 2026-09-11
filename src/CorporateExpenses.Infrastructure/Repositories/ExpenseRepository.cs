@@ -1,7 +1,10 @@
+using CorporateExpenses.Application.DTOs.Expenses;
 using CorporateExpenses.Application.Interfaces;
 using CorporateExpenses.Domain.Entities;
 using CorporateExpenses.Infrastructure.Data;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CorporateExpenses.Infrastructure.Repositories;
 
@@ -69,5 +72,33 @@ public sealed class ExpenseRepository(
     {
         return context.SaveChangesAsync(
             cancellationToken);
+    }
+
+    public async Task<ExpenseSummaryResponse> GetSummaryByUserAsync(
+    int userId,
+    CancellationToken cancellationToken)
+    {
+        const string sql = """
+        SELECT
+            ISNULL(SUM(Amount), 0) AS TotalAmount,
+            COUNT(*) AS TotalExpenses
+        FROM Expenses
+        WHERE UserId = @UserId;
+        """;
+
+        using var connection = context.Database.GetDbConnection();
+
+        if (connection.State != ConnectionState.Open)
+        {
+            await connection.OpenAsync(cancellationToken);
+        }
+
+        var command = new CommandDefinition(
+            sql,
+            new { UserId = userId },
+            cancellationToken: cancellationToken);
+
+        return await connection.QuerySingleAsync<ExpenseSummaryResponse>(
+            command);
     }
 }

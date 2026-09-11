@@ -113,6 +113,22 @@ public sealed class ExpensesController(
             : NotFound();
     }
 
+    [HttpGet("summary")]
+    [ProducesResponseType(
+    typeof(ExpenseSummaryResponse),
+    StatusCodes.Status200OK)]
+    public async Task<ActionResult<ExpenseSummaryResponse>> GetSummary(
+    CancellationToken cancellationToken)
+    {
+        var userId = GetUserId();
+
+        var summary = await manager.GetSummaryByUserAsync(
+            userId,
+            cancellationToken);
+
+        return Ok(summary);
+    }
+
     private int GetUserId()
     {
         var userIdClaim = User.FindFirstValue(

@@ -28,4 +28,8 @@ public interface IExpenseManager
     int id,
     int userId,
     CancellationToken cancellationToken);
+
+    Task<ExpenseSummaryResponse> GetSummaryByUserAsync(
+    int userId,
+    CancellationToken cancellationToken);
 }

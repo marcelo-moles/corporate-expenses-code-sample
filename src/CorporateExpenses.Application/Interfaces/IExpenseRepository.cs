@@ -1,3 +1,4 @@
+using CorporateExpenses.Application.DTOs.Expenses;
 using CorporateExpenses.Domain.Entities;
 
 namespace CorporateExpenses.Application.Interfaces;
@@ -22,6 +23,10 @@ public interface IExpenseRepository
 
     Task<bool> DeleteAsync(
     int id,
+    int userId,
+    CancellationToken cancellationToken);
+
+    Task<ExpenseSummaryResponse> GetSummaryByUserAsync(
     int userId,
     CancellationToken cancellationToken);
 }
