@@ -1,0 +1,49 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# .NET
+bin/
+obj/
+
+# NuGet
+packages/
+
+# User Secrets
+secrets.json
+
+# Test results
+TestResults/
+*.trx
+
+# Code coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Build output
+artifacts/
+
+# Local environment
+.env
+.env.*
+
+# Publish output
+publish/
+
+# SQL Server local files
+*.mdf
+*.ldf
