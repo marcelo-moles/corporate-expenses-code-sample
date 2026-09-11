@@ -41,6 +41,29 @@ public sealed class ExpenseRepository(
             cancellationToken);
     }
 
+    public async Task<bool> DeleteAsync(
+    int id,
+    int userId,
+    CancellationToken cancellationToken)
+    {
+        var expense = await context.Expenses
+            .FirstOrDefaultAsync(
+                x => x.Id == id &&
+                     x.UserId == userId,
+                cancellationToken);
+
+        if (expense is null)
+        {
+            return false;
+        }
+
+        context.Expenses.Remove(expense);
+
+        await context.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
     public Task SaveChangesAsync(
         CancellationToken cancellationToken)
     {

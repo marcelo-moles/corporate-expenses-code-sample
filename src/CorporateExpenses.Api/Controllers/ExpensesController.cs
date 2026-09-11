@@ -94,6 +94,25 @@ public sealed class ExpensesController(
             : Ok(expense);
     }
 
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(
+    int id,
+    CancellationToken cancellationToken)
+    {
+        var userId = GetUserId();
+
+        var deleted = await manager.DeleteAsync(
+            id,
+            userId,
+            cancellationToken);
+
+        return deleted
+            ? NoContent()
+            : NotFound();
+    }
+
     private int GetUserId()
     {
         var userIdClaim = User.FindFirstValue(

@@ -81,6 +81,17 @@ public sealed class ExpenseManager(
         return Map(expense);
     }
 
+    public async Task<bool> DeleteAsync(
+    int id,
+    int userId,
+    CancellationToken cancellationToken)
+    {
+        return await repository.DeleteAsync(
+            id,
+            userId,
+            cancellationToken);
+    }
+
     private static ExpenseResponse Map(Expense expense)
     {
         return new ExpenseResponse(

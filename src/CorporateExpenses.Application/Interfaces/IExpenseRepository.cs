@@ -19,4 +19,9 @@ public interface IExpenseRepository
 
     Task SaveChangesAsync(
         CancellationToken cancellationToken);
+
+    Task<bool> DeleteAsync(
+    int id,
+    int userId,
+    CancellationToken cancellationToken);
 }
