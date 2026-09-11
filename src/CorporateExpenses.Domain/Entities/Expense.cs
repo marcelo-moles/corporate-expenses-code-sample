@@ -38,6 +38,28 @@ public sealed class Expense
         CreatedAt = DateTime.UtcNow;
     }
 
+    public void Update(
+    decimal amount,
+    string description)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException(
+                "Expense amount must be greater than zero.",
+                nameof(amount));
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            throw new ArgumentException(
+                "Expense description is required.",
+                nameof(description));
+        }
+
+        Amount = amount;
+        Description = description.Trim();
+    }
+
     public int Id { get; private set; }
 
     public decimal Amount { get; private set; }

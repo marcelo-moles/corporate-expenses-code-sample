@@ -55,6 +55,32 @@ public sealed class ExpenseManager(
         return Map(expense);
     }
 
+    public async Task<ExpenseResponse?> UpdateAsync(
+    int id,
+    UpdateExpenseRequest request,
+    int userId,
+    CancellationToken cancellationToken)
+    {
+        var expense = await repository.GetByIdAsync(
+            id,
+            userId,
+            cancellationToken);
+
+        if (expense is null)
+        {
+            return null;
+        }
+
+        expense.Update(
+            request.Amount,
+            request.Description);
+
+        await repository.SaveChangesAsync(
+            cancellationToken);
+
+        return Map(expense);
+    }
+
     private static ExpenseResponse Map(Expense expense)
     {
         return new ExpenseResponse(

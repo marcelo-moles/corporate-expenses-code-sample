@@ -71,6 +71,29 @@ public sealed class ExpensesController(
             expense);
     }
 
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(
+    typeof(ExpenseResponse),
+    StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ExpenseResponse>> Update(
+    int id,
+    UpdateExpenseRequest request,
+    CancellationToken cancellationToken)
+    {
+        var userId = GetUserId();
+
+        var expense = await manager.UpdateAsync(
+            id,
+            request,
+            userId,
+            cancellationToken);
+
+        return expense is null
+            ? NotFound()
+            : Ok(expense);
+    }
+
     private int GetUserId()
     {
         var userIdClaim = User.FindFirstValue(

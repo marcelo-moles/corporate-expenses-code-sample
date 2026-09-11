@@ -17,4 +17,10 @@ public interface IExpenseManager
         CreateExpenseRequest request,
         int userId,
         CancellationToken cancellationToken);
+
+    Task<ExpenseResponse?> UpdateAsync(
+    int id,
+    UpdateExpenseRequest request,
+    int userId,
+    CancellationToken cancellationToken);
 }
